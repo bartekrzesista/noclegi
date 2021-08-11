@@ -1,7 +1,13 @@
 import React from 'react';
 
 function Menu() {
-    return 'menu';
+    return (
+        <div style={{
+            backgroundColor: 'lightblue'
+        }}>
+            menu
+        </div>
+    );
 }
 
 export default Menu;
