@@ -2,16 +2,16 @@ import React from 'react';
 
 function Searchbar() {
     return (
-        <div>
+        <div className="d-flex">
             <input 
                 type="text"
                 placeholder="Szukaj..."
                 style={{
                     width: 'calc(100% - 20px)'
                 }}
-                className="input-text"
+                className="form-control"
             />
-            <button>Szukaj</button>
+            <button className="btn btn-secondary ms-1">Szukaj</button>
         </div>
     )
 }

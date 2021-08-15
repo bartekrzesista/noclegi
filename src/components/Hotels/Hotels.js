@@ -6,8 +6,8 @@ import styles from './Hotels.module.css';
 class Hotels extends Component {
     render() {
         return (
-            <div className={styles.hotels}>
-                <h2>hotels</h2>
+            <div className={styles.container}>
+                <h2 className={styles.title}>Oferty:</h2>
                 <Hotel />
                 <Hotel />
             </div>

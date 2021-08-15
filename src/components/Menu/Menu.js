@@ -1,13 +1,16 @@
-import React from 'react';
+import React from "react";
+import styles from "./Menu.module.css";
 
 function Menu() {
-    return (
-        <div style={{
-            backgroundColor: 'lightblue'
-        }}>
-            menu
-        </div>
-    );
+  return (
+    <div className={`${styles.menuContainer} container`}>
+        <ul className={styles.menu}>
+            <li className={styles.menuItem}>Home</li>
+            <li className={styles.menuItem}>Home</li>
+            <li className={styles.menuItem}>Home</li>
+        </ul>
+    </div>
+  );
 }
 
 export default Menu;

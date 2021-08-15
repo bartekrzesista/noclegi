@@ -1,13 +1,13 @@
 import React from 'react';
-import './Header.css';
+import styles from './Header.module.css';
 import Searchbar from './Searchbar/Searchbar';
 
 function Header() {
     return (
-        <>
-            <h1 className="header">header</h1>
+        <header className={`container ${styles.header}`}>
+            <h1 className={styles.heading}>Noclegi<span className={styles.headingBackground}></span></h1>
             <Searchbar />
-        </>
+        </header>
     )
 }
 

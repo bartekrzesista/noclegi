@@ -1,4 +1,11 @@
-.hotels {
-    border: 1px solid #000;
-    background: orange;
+.container {
+    border: 1px solid #cdcdcd;
+    margin: 10px 0;
+}
+
+.title {
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+    margin: 0;
 }
