@@ -7,14 +7,21 @@ function Searchbar() {
         console.log(term);
     }
 
+    // const onKeyDownHandler = (e) => {
+    //     if(e.key === 'Enter') {
+    //         search();
+    //     }
+    // }
+
     return (
         <div className="d-flex">
             <input 
                 type="text"
                 placeholder="Szukaj..."
-                value={term}
-                onChange={e => {setTerm(e.target.value)}}
                 className="form-control"
+                value={term}
+                onChange={e => setTerm(e.target.value)}
+                onKeyDown={e => {e.key === 'Enter' && search()}}
             />
             <button 
                 className="btn btn-secondary ms-1"
