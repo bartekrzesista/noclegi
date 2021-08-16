@@ -1,6 +1,7 @@
-import React from "react";
-import styles from "./Hotel.module.css";
-import img from "../../../assets/images/hotel.jpg";
+import React from 'react';
+import styles from './Hotel.module.css';
+import img from '../../../assets/images/hotel.jpg';
+import Searchbar from '../../Header/Searchbar/Searchbar';
 
 function Hotel() {
   return (
@@ -28,6 +29,7 @@ function Hotel() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
             consequat id lorem vitae accumsan.
           </p>
+          <Searchbar />
         </div>
       </div>
     </div>
