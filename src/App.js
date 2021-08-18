@@ -3,39 +3,52 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
+import LoadingIcon from "./components/UI/LoadingIcon";
 
 class App extends Component {
   hotels = [
     {
       id: 1,
       name: "Pod akacjami",
-      city: 'Warszawa',
+      city: "Warszawa",
       rating: 8.3,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.',
-      image: ''
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
+      image: "",
     },
     {
       id: 2,
       name: "Dębowy",
-      city: 'Lublin',
+      city: "Lublin",
       rating: 8.8,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      image: ''
-    }
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      image: "",
+    },
   ];
 
   constructor(props) {
     super(props);
-    this.state = {hotels: this.hotels};
+    this.state = {
+      hotels: [],
+      loading: true
+    };
   }
 
   searchHandler = (term) => {
-    const hotels = [...this.hotels]
-    .filter(e => e.name
-      .toLowerCase()
-      .includes(term.toLowerCase())
-      )
-      this.setState({hotels});
+    const hotels = [...this.hotels].filter((e) =>
+      e.name.toLowerCase().includes(term.toLowerCase())
+    );
+    this.setState({ hotels });
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        hotels: this.hotels,
+        loading: false
+      });
+    }, 1000);
   }
 
   render() {
@@ -43,7 +56,10 @@ class App extends Component {
       <div className="App">
         <Header searchHandler={this.searchHandler} />
         <Menu />
-        <Hotels hotels={this.state.hotels}/>
+        { this.state.loading
+          ? <LoadingIcon />
+          : <Hotels hotels={this.state.hotels} />
+        }
       </div>
     );
   }
