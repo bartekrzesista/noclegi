@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
-function Searchbar() {
+function Searchbar(props) {
     const [term, setTerm] = useState('');
 
     const search = () => {
-        console.log(term);
+        props.searchHandler(term);
     }
 
     // const onKeyDownHandler = (e) => {

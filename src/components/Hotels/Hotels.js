@@ -8,8 +8,7 @@ class Hotels extends Component {
         return (
             <div className={styles.container}>
                 <h2 className={styles.title}>Oferty:</h2>
-                <Hotel />
-                <Hotel />
+                {this.props.hotels.map(e => <Hotel key={e.id} hotel={e}/>)}
             </div>
         );
     }
