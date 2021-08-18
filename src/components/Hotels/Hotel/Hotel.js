@@ -1,6 +1,16 @@
-import React from 'react';
-import styles from './Hotel.module.css';
-import img from '../../../assets/images/hotel.jpg';
+import React from "react";
+import PropTypes from "prop-types";
+import styles from "./Hotel.module.css";
+import img from "../../../assets/images/hotel.jpg";
+
+Hotel.propTypes = {
+  hotel: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+  }),
+};
 
 function Hotel(props) {
   return (
@@ -24,9 +34,7 @@ function Hotel(props) {
           </div>
         </div>
         <div className="col-12">
-          <p className={styles.description}>
-            {props.hotel.description}
-          </p>
+          <p className={styles.description}>{props.hotel.description}</p>
         </div>
       </div>
     </div>
