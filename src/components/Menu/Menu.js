@@ -3,13 +3,13 @@ import styles from "./Menu.module.css";
 
 function Menu() {
   return (
-    <div className={`${styles.menuContainer} container`}>
+    <nav className={styles.menuContainer}>
         <ul className={styles.menu}>
             <li className={styles.menuItem}>Home</li>
             <li className={styles.menuItem}>Home</li>
             <li className={styles.menuItem}>Home</li>
         </ul>
-    </div>
+    </nav>
   );
 }
 
