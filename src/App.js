@@ -7,8 +7,11 @@ import Searchbar from "./components/UI/Searchbar/Searchbar";
 import Layout from "./components/Layout/Layout";
 import Footer from "./components/Footer/Footer";
 import ThemeButton from "./components/UI/ThemeButton/ThemeButton";
+import ThemeContext from "./context/themeContext";
 
 class App extends Component {
+  static contextType = ThemeContext;
+
   hotels = [
     {
       id: 1,
@@ -61,27 +64,36 @@ class App extends Component {
   };
 
   render() {
+    const header = (
+      <Header>
+        <Searchbar searchHandler={this.searchHandler} />
+        <ThemeButton />
+      </Header>
+    );
+
+    const menu = <Menu />;
+
+    const content = this.state.loading ? (
+      <LoadingIcon />
+    ) : (
+      <Hotels hotels={this.state.hotels} />
+    );
+
+    const footer = <Footer />;
+
     return (
-      <Layout
-        header={
-          <Header>
-            <Searchbar
-              searchHandler={this.searchHandler}
-              theme={this.state.theme}
-            />
-            <ThemeButton onChange={this.changeTheme} />
-          </Header>
-        }
-        menu={<Menu />}
-        content={
-          this.state.loading ? (
-            <LoadingIcon />
-          ) : (
-            <Hotels hotels={this.state.hotels} theme={this.state.theme} />
-          )
-        }
-        footer={<Footer />}
-      />
+      <ThemeContext.Provider value={{
+        theme: this.state.theme,
+        toggleTheme: this.changeTheme
+      }
+      }>
+        <Layout
+          header={header}
+          menu={menu}
+          content={content}
+          footer={footer}
+        />
+      </ThemeContext.Provider>
     );
   }
 }

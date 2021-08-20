@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Hotel.module.css";
 import img from "../../../assets/images/hotel.jpg";
+import ThemeContext from "../../../context/themeContext";
 
 Hotel.propTypes = {
   hotel: PropTypes.shape({
@@ -22,13 +23,19 @@ function Hotel(props) {
           </div>
           <div className="col-8">
             <div className="row">
-              <div className="col">
+              <div className="col px-2">
                 <p className={styles.title}>{props.hotel.name}</p>
                 <span className="badge bg-dark mb-3">{props.hotel.city}</span>
               </div>
-              <div className="col text-right">
+              <div className="col text-right px-2">
                 <h5>Ocena: {props.hotel.rating}</h5>
-                <button className={`btn btn-${props.theme} mt-2 px-4`}>Pokaż</button>
+                <ThemeContext.Consumer>
+                  {({theme}) => (
+                    <button className={`btn btn-${theme} mt-2 px-4`}>
+                      Pokaż
+                    </button>
+                  )}
+                </ThemeContext.Consumer>
               </div>
             </div>
           </div>
