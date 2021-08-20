@@ -28,7 +28,7 @@ function Hotel(props) {
               </div>
               <div className="col text-right">
                 <h5>Ocena: {props.hotel.rating}</h5>
-                <button className="btn btn-primary mt-2 px-4">Pokaż</button>
+                <button className={`btn btn-${props.theme} mt-2 px-4`}>Pokaż</button>
               </div>
             </div>
           </div>
