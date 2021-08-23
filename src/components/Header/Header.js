@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
+import withMousePosition from '../../hoc/withMousePosition';
 
 function Header(props) {
     return (
@@ -10,4 +11,4 @@ function Header(props) {
     )
 }
 
-export default Header;
+export default withMousePosition(Header);

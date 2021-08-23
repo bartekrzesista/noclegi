@@ -1,4 +1,6 @@
-export default function Layout(props) {
+import withClass from "../../hoc/withClass";
+
+function Layout(props) {
     return (
         <>
             {props.header}
@@ -8,3 +10,5 @@ export default function Layout(props) {
         </>
     );
 }
+
+export default withClass(Layout, 'layout');
