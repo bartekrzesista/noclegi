@@ -5,4 +5,6 @@ const ThemeContext = React.createContext({
     toggleTheme: () => {}
 });
 
+ThemeContext.displayName = 'ThemeContext';
+
 export default ThemeContext;

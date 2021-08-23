@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import ThemeContext from "../../../context/themeContext";
 
@@ -8,6 +8,7 @@ const propTypes = {
 
 function Searchbar(props) {
   const [term, setTerm] = useState("");
+  const themeContext = useContext(ThemeContext);
 
   const search = () => {
     props.searchHandler(term);
@@ -31,13 +32,9 @@ function Searchbar(props) {
           e.key === "Enter" && search();
         }}
       />
-      <ThemeContext.Consumer>
-        {({theme}) => (
-          <button className={`btn btn-${theme} ms-1`} onClick={search}>
-            Szukaj
-          </button>
-        )}
-      </ThemeContext.Consumer>
+      <button className={`btn btn-${themeContext.theme} ms-1`} onClick={search}>
+        Szukaj
+      </button>
     </div>
   );
 }

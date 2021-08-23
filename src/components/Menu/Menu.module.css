@@ -6,10 +6,13 @@
 .menu {
     padding: 0;
     margin: 0;
+    list-style-type: none;
     display: flex;
     justify-content: space-around;
 }
 
-.menuItem {
-    list-style-type: none;
+.signButton {
+    background: transparent;
+    border: none;
+    color: #0d6efd;
 }
