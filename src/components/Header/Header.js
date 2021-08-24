@@ -4,7 +4,7 @@ import withMousePosition from '../../hoc/withMousePosition';
 
 function Header(props) {
     const parallax = {
-        transform: `translate(${props.mouseX/60}px, ${props.mouseY/120}px)`
+        transform: `translate(${props.mouseX/-60}px, ${props.mouseY/-120}px)`
     }
 
     return (
