@@ -1,12 +1,11 @@
 .header {
-    background-image: url(../../assets/images/header.jpg);
-    background-size: cover;
-    background-position: top;
     height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
 }
 
 .heading {
@@ -14,4 +13,16 @@
     font-size: 40px;
     margin-bottom: 36px;
     color: #fff;
+}
+
+.headerBackground {
+    background-image: url(../../assets/images/header.jpg);
+    background-size: cover;
+    background-position: top;
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    right: -5%;
+    bottom: -5%;
+    z-index: -1;
 }
