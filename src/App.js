@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
@@ -10,99 +10,88 @@ import ThemeButton from "./components/UI/ThemeButton/ThemeButton";
 import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
 
-class App extends Component {
-  hotels = [
-    {
-      id: 1,
-      name: "Pod akacjami",
-      city: "Warszawa",
-      rating: 8.3,
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
-      image: "",
-    },
-    {
-      id: 2,
-      name: "Dębowy",
-      city: "Lublin",
-      rating: 8.8,
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "",
-    },
-  ];
+const backendHotels = [
+  {
+    id: 1,
+    name: "Pod akacjami",
+    city: "Warszawa",
+    rating: 8.3,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
+    image: "",
+  },
+  {
+    id: 2,
+    name: "Dębowy",
+    city: "Lublin",
+    rating: 8.8,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    image: "",
+  },
+];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      hotels: [],
-      loading: true,
-      theme: "primary",
-      isAuthenticated: false,
-    };
-  }
+function App() {
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState('primary');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  searchHandler = (term) => {
-    const hotels = [...this.hotels].filter((e) =>
+  useEffect(() => {
+    setTimeout(() => {
+      setHotels(backendHotels);
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  const searchHandler = (term) => {
+    const hotels = [...backendHotels].filter((e) =>
       e.name.toLowerCase().includes(term.toLowerCase())
     );
-    this.setState({ hotels });
+    setHotels(hotels);
   };
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        hotels: this.hotels,
-        loading: false,
-      });
-    }, 1000);
-  }
-
-  changeTheme = () => {
-    const newTheme = this.state.theme === "primary" ? "warning" : "primary";
-    this.setState({ theme: newTheme });
+  const toggleTheme = () => {
+    const newTheme = theme === "primary" ? "warning" : "primary";
+    setTheme(newTheme);
   };
 
-  render() {
-    const header = (
-      <Header>
-        <Searchbar searchHandler={this.searchHandler} />
-        <ThemeButton />
-      </Header>
-    );
 
-    const menu = <Menu />;
+  const header = (
+    <Header>
+      <Searchbar searchHandler={searchHandler} />
+      <ThemeButton />
+    </Header>
+  );
+  const menu = <Menu />;
+  const content = loading ? (
+    <LoadingIcon />
+  ) : (
+    <Hotels hotels={hotels} />
+  );
+  const footer = <Footer />;
 
-    const content = this.state.loading ? (
-      <LoadingIcon />
-    ) : (
-      <Hotels hotels={this.state.hotels} />
-    );
-
-    const footer = <Footer />;
-
-    return (
-      <AuthContext.Provider value={{
-        isAuthenticated: this.state.isAuthenticated,
-        signIn: () => {this.setState({isAuthenticated: true})},
-        signOut: () => {this.setState({isAuthenticated: false})}
-      }}>
-        <ThemeContext.Provider
-          value={{
-            theme: this.state.theme,
-            toggleTheme: this.changeTheme,
-          }}
-        >
-          <Layout
-            header={header}
-            menu={menu}
-            content={content}
-            footer={footer}
-          />
-        </ThemeContext.Provider>
-      </AuthContext.Provider>
-    );
-  }
+  return (
+    <AuthContext.Provider value={{
+      isAuthenticated,
+      signIn: () => setIsAuthenticated(true),
+      signOut: () => setIsAuthenticated(false)
+    }}>
+      <ThemeContext.Provider
+        value={{
+          theme,
+          toggleTheme
+        }}
+      >
+        <Layout
+          header={header}
+          menu={menu}
+          content={content}
+          footer={footer}
+        />
+      </ThemeContext.Provider>
+    </AuthContext.Provider>
+  );
 }
 
 export default App;
