@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
@@ -32,30 +32,68 @@ const backendHotels = [
 ];
 
 function App() {
-  const [hotels, setHotels] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState('primary');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const reducer = (state, action) => {
+    switch (action.type) {
+      // const newState = {...state};
+      // newState.theme = state.theme === "primary" ? "warning" : "primary";
+      // return newState;
+      case "set-hotels":
+        return {
+          ...state,
+          hotels: action.hotels,
+        };
+      case "change-theme":
+        return {
+          ...state,
+          theme: state.theme === "primary" ? "warning" : "primary",
+        };
+      case "set-loading":
+        return {
+          ...state,
+          loading: action.loading,
+        };
+      case "signIn":
+        return {
+          ...state,
+          isAuthenticated: true,
+        };
+      case "signOut":
+        return {
+          ...state,
+          isAuthenticated: false,
+        };
+
+      default:
+        throw new Error("Nie ma takiej akcji: " + action.type);
+    }
+  };
+
+  const initialState = {
+    hotels: [],
+    loading: true,
+    theme: "primary",
+    isAuthenticated: false,
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     setTimeout(() => {
-      setHotels(backendHotels);
-      setLoading(false);
+      dispatch({ type: "set-hotels", hotels: backendHotels });
+      dispatch({ type: "set-loading", loading: false });
     }, 1000);
   }, []);
 
   const searchHandler = (term) => {
-    const hotels = [...backendHotels].filter((e) =>
+    const searchedHotels = [...backendHotels].filter((e) =>
       e.name.toLowerCase().includes(term.toLowerCase())
     );
-    setHotels(hotels);
+    dispatch({ type: "set-hotels", hotels: searchedHotels });
   };
 
   const toggleTheme = () => {
-    const newTheme = theme === "primary" ? "warning" : "primary";
-    setTheme(newTheme);
+    dispatch({ type: "change-theme" });
   };
-
 
   const header = (
     <Header>
@@ -64,31 +102,28 @@ function App() {
     </Header>
   );
   const menu = <Menu />;
-  const content = loading ? (
+  const content = state.loading ? (
     <LoadingIcon />
   ) : (
-    <Hotels hotels={hotels} />
+    <Hotels hotels={state.hotels} />
   );
   const footer = <Footer />;
 
   return (
-    <AuthContext.Provider value={{
-      isAuthenticated,
-      signIn: () => setIsAuthenticated(true),
-      signOut: () => setIsAuthenticated(false)
-    }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: state.isAuthenticated,
+        signIn: () => dispatch({ type: "signIn"}),
+        signOut: () => dispatch({ type: "signOut" }),
+      }}
+    >
       <ThemeContext.Provider
         value={{
-          theme,
-          toggleTheme
+          theme: state.theme,
+          toggleTheme,
         }}
       >
-        <Layout
-          header={header}
-          menu={menu}
-          content={content}
-          footer={footer}
-        />
+        <Layout header={header} menu={menu} content={content} footer={footer} />
       </ThemeContext.Provider>
     </AuthContext.Provider>
   );
