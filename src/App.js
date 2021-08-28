@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer} from "react";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import ThemeButton from "./components/UI/ThemeButton/ThemeButton";
 import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
+import BestHotel from "./components/Hotels/BestHotel/BestHotel";
 
 const backendHotels = [
   {
@@ -95,6 +96,17 @@ function App() {
     dispatch({ type: "change-theme" });
   };
 
+  const getBestHotel = () => {
+    if(state.hotels.length < 2) return null;
+
+    const stateHotels= [...state.hotels];
+    const compare = (a, b) => {
+      return a.rating > b.rating ? -1 : 1;
+    }
+
+    return stateHotels.sort(compare)[0];
+  };
+
   const header = (
     <Header>
       <Searchbar searchHandler={searchHandler} />
@@ -105,7 +117,10 @@ function App() {
   const content = state.loading ? (
     <LoadingIcon />
   ) : (
-    <Hotels hotels={state.hotels} />
+    <>
+      <BestHotel getBestHotel={getBestHotel} />
+      <Hotels hotels={state.hotels} />
+    </>
   );
   const footer = <Footer />;
 
