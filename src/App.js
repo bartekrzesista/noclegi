@@ -1,4 +1,4 @@
-import { useEffect, useReducer} from "react";
+import { useCallback, useEffect, useReducer} from "react";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
@@ -96,8 +96,8 @@ function App() {
     dispatch({ type: "change-theme" });
   };
 
-  const getBestHotel = () => {
-    if(state.hotels.length < 2) return null;
+  const getBestHotel = useCallback((options) => {
+    if(state.hotels.length < options.minHotel) return null;
 
     const stateHotels= [...state.hotels];
     const compare = (a, b) => {
@@ -105,7 +105,7 @@ function App() {
     }
 
     return stateHotels.sort(compare)[0];
-  };
+  }, [state.hotels]);
 
   const header = (
     <Header>
