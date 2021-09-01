@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer} from "react";
+import { useEffect, useReducer} from "react";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
@@ -10,6 +10,7 @@ import ThemeButton from "./components/UI/ThemeButton/ThemeButton";
 import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
 import BestHotel from "./components/Hotels/BestHotel/BestHotel";
+import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
 
 const backendHotels = [
   {
@@ -96,8 +97,8 @@ function App() {
     dispatch({ type: "change-theme" });
   };
 
-  const getBestHotel = useCallback((options) => {
-    if(state.hotels.length < options.minHotel) return null;
+  const getBestHotel = () => {
+    if(state.hotels.length < 2) return null;
 
     const stateHotels= [...state.hotels];
     const compare = (a, b) => {
@@ -105,10 +106,11 @@ function App() {
     }
 
     return stateHotels.sort(compare)[0];
-  }, [state.hotels]);
+  };
 
   const header = (
     <Header>
+      <InspiringQuote />
       <Searchbar searchHandler={searchHandler} />
       <ThemeButton />
     </Header>
