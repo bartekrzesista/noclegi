@@ -120,7 +120,7 @@ function App() {
     <LoadingIcon />
   ) : (
     <>
-      <BestHotel getBestHotel={getBestHotel} />
+      {getBestHotel() ? <BestHotel getBestHotel={getBestHotel} /> : null}
       <Hotels hotels={state.hotels} />
     </>
   );
