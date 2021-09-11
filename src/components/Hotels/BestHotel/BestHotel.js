@@ -9,7 +9,7 @@ function BestHotel(props) {
     useEffect(() => {
         const endTime = moment().add(25, 'minutes').add(33, 'seconds');
 
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
             const remainingTime = -moment().diff(endTime) / 1000;
             const minutes = Math.floor(remainingTime / 60);
             const seconds = Math.floor(remainingTime % 60);

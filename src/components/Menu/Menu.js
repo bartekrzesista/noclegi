@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import useAuth from "../../hooks/useAuth";
 import styles from "./Menu.module.css";
-import AuthContext from "../../context/authContext";
 
 function Menu() {
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
+  const [auth, setAuth] = useAuth();
 
   return (
     <nav className={`${styles.menuContainer} bg-light`}>
@@ -12,11 +12,11 @@ function Menu() {
           <a href="#">Home</a>
         </li>
         <li>
-          {auth.isAuthenticated ? (
+          {auth ? (
             <button
               type="button"
               className={styles.signButton}
-              onClick={auth.signOut}
+              onClick={e => setAuth(false)}
             >
               Wyloguj
             </button>
@@ -24,7 +24,7 @@ function Menu() {
             <button
               type="button"
               className={styles.signButton}
-              onClick={auth.signIn}
+              onClick={e => setAuth(true)}
             >
               Zaloguj
             </button>
