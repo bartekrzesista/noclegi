@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import moment from 'moment';
 
 function BestHotel(props) {
-    const best = props.getBestHotel();
     const [time, setTime] = useState('');
+    const best = useMemo(() => props.getBestHotel(), [props.getBestHotel]);
 
     // componentDidMount()
     useEffect(() => {

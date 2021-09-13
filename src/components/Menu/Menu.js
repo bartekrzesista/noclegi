@@ -2,7 +2,6 @@ import useAuth from "../../hooks/useAuth";
 import styles from "./Menu.module.css";
 
 function Menu() {
-  // const auth = useContext(AuthContext);
   const [auth, setAuth] = useAuth();
 
   return (
