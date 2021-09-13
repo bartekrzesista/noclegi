@@ -11,6 +11,7 @@ import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
 import BestHotel from "./components/Hotels/BestHotel/BestHotel";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const backendHotels = [
   {
@@ -78,6 +79,7 @@ function App() {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [storage, setStorage] = useLocalStorage('key1', 'wartość startowa');
 
   useEffect(() => {
     setTimeout(() => {
@@ -120,6 +122,7 @@ function App() {
     <LoadingIcon />
   ) : (
     <>
+      <input type="text" value={storage} onChange={e => setStorage(e.target.value)} />
       {getBestHotel() ? <BestHotel getBestHotel={getBestHotel} /> : null}
       <Hotels hotels={state.hotels} />
     </>
