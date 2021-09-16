@@ -2,7 +2,7 @@ function LastHotel(props) {
     if(!props) return null;
 
     return (
-        <div className="card bg-light mb-2">
+        <div className="card bg-light mb-3">
             <div className="card-header">Ostatnio oglądałeś ten hotel. Wciąż zainteresowany?</div>
             <div className="card-body d-flex justify-content-between">
                 <h5 className="card-title m-0">{props.name}</h5>
