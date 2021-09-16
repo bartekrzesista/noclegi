@@ -11,7 +11,8 @@ import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
 import BestHotel from "./components/Hotels/BestHotel/BestHotel";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
-import useLocalStorage from "./hooks/useLocalStorage";
+import LastHotel from "./components/Hotels/LastHotel/LastHotel";
+import useLocalStorage from './hooks/useLocalStorage';
 
 const backendHotels = [
   {
@@ -79,7 +80,7 @@ function App() {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [storage, setStorage] = useLocalStorage('key1', 'wartość startowa');
+  const [lastHotel, setLastHotel] = useLocalStorage('last-hotel', null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -110,6 +111,9 @@ function App() {
     return stateHotels.sort(compare)[0];
   };
 
+  const openHotel = (hotel) => setLastHotel(hotel);
+  const removeLastHotel = () => setLastHotel(null);
+
   const header = (
     <Header>
       <InspiringQuote />
@@ -118,13 +122,14 @@ function App() {
     </Header>
   );
   const menu = <Menu />;
+
   const content = state.loading ? (
     <LoadingIcon />
   ) : (
     <>
-      <input type="text" value={storage} onChange={e => setStorage(e.target.value)} />
+      {lastHotel ? <LastHotel {...lastHotel} removeLastHotel={removeLastHotel} /> : null }
       {getBestHotel() ? <BestHotel getBestHotel={getBestHotel} /> : null}
-      <Hotels hotels={state.hotels} />
+      <Hotels hotels={state.hotels} onOpen={openHotel} />
     </>
   );
   const footer = <Footer />;
