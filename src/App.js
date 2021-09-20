@@ -13,6 +13,7 @@ import BestHotel from "./components/Hotels/BestHotel/BestHotel";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
 import LastHotel from "./components/Hotels/LastHotel/LastHotel";
 import useLocalStorage from './hooks/useLocalStorage';
+import useWebTitle from "./hooks/useWebTitle";
 
 const backendHotels = [
   {
@@ -81,6 +82,7 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const [lastHotel, setLastHotel] = useLocalStorage('last-hotel', null);
+  useWebTitle('Strona główna');
 
   useEffect(() => {
     setTimeout(() => {
