@@ -1,4 +1,5 @@
 import { useEffect, useReducer} from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Hotels from "./components/Hotels/Hotels";
@@ -125,34 +126,42 @@ function App() {
   );
   const menu = <Menu />;
 
-  const content = state.loading ? (
-    <LoadingIcon />
-  ) : (
+  const content = (
     <>
-      {lastHotel ? <LastHotel {...lastHotel} removeLastHotel={removeLastHotel} /> : null }
-      {getBestHotel() ? <BestHotel getBestHotel={getBestHotel} /> : null}
-      <Hotels hotels={state.hotels} onOpen={openHotel} />
+      <Route exact path="/">
+        {lastHotel ? <LastHotel {...lastHotel} removeLastHotel={removeLastHotel} /> : null }
+        {getBestHotel() ? <BestHotel getBestHotel={getBestHotel} /> : null}
+        <Hotels hotels={state.hotels} onOpen={openHotel} />
+      </Route>
+
+      <Route path="/hotels/:id"><h1>To jest jakiś hotel</h1></Route>
     </>
   );
   const footer = <Footer />;
 
   return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated: state.isAuthenticated,
-        signIn: () => dispatch({ type: "signIn"}),
-        signOut: () => dispatch({ type: "signOut" }),
-      }}
-    >
-      <ThemeContext.Provider
+    <Router>
+      <AuthContext.Provider
         value={{
-          theme: state.theme,
-          toggleTheme,
+          isAuthenticated: state.isAuthenticated,
+          signIn: () => dispatch({ type: "signIn"}),
+          signOut: () => dispatch({ type: "signOut" }),
         }}
       >
-        <Layout header={header} menu={menu} content={content} footer={footer} />
-      </ThemeContext.Provider>
-    </AuthContext.Provider>
+        <ThemeContext.Provider
+          value={{
+            theme: state.theme,
+            toggleTheme,
+          }}
+        >
+          <Layout
+            header={header}
+            menu={menu}
+            content={state.loading ? <LoadingIcon /> : content}
+            footer={footer} />
+        </ThemeContext.Provider>
+      </AuthContext.Provider>
+    </Router>
   );
 }
 
