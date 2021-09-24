@@ -34,6 +34,8 @@ export default function HomePage() {
     const reducer = useContext(ReducerContext);
 
     useEffect(() => {
+      // reducer.dispatch({ type: "set-loading", loading: true });
+
         setTimeout(() => {
           reducer.dispatch({ type: "set-hotels", hotels: backendHotels });
           reducer.dispatch({ type: "set-loading", loading: false });
@@ -53,9 +55,7 @@ export default function HomePage() {
         return stateHotels.sort(compare)[0];
       };
 
-    if(reducer.state.loading) {
-        return <LoadingIcon />
-    }
+    if (reducer.state.loading) return null;
 
     return (
         <>
