@@ -43,13 +43,6 @@ function Hotel(props) {
                 >
                   Pokaż
                 </Link>
-                {/* <a
-                  href="/hotels/id"
-                  className={`btn btn-${theme.theme} mt-2 px-4`}
-                  onClick={clickHandler}
-                >
-                  Pokaż
-                </a> */}
               </div>
             </div>
           </div>

@@ -2,7 +2,6 @@ import { useEffect, useReducer} from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
-import Hotels from "./components/Hotels/Hotels";
 import LoadingIcon from "./components/UI/LoadingIcon/LoadingIcon";
 import Searchbar from "./components/UI/Searchbar/Searchbar";
 import Layout from "./components/Layout/Layout";
@@ -10,11 +9,10 @@ import Footer from "./components/Footer/Footer";
 import ThemeButton from "./components/UI/ThemeButton/ThemeButton";
 import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
-import BestHotel from "./components/Hotels/BestHotel/BestHotel";
+import ReducerContext from "./context/reducerContext";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
-import LastHotel from "./components/Hotels/LastHotel/LastHotel";
-import useLocalStorage from './hooks/useLocalStorage';
-import useWebTitle from "./hooks/useWebTitle";
+import { reducer, initialState } from "./reducer";
+import Home from "./pages/Home/Home";
 
 const backendHotels = [
   {
@@ -38,59 +36,7 @@ const backendHotels = [
 ];
 
 function App() {
-  const reducer = (state, action) => {
-    switch (action.type) {
-      // const newState = {...state};
-      // newState.theme = state.theme === "primary" ? "warning" : "primary";
-      // return newState;
-      case "set-hotels":
-        return {
-          ...state,
-          hotels: action.hotels,
-        };
-      case "change-theme":
-        return {
-          ...state,
-          theme: state.theme === "primary" ? "warning" : "primary",
-        };
-      case "set-loading":
-        return {
-          ...state,
-          loading: action.loading,
-        };
-      case "signIn":
-        return {
-          ...state,
-          isAuthenticated: true,
-        };
-      case "signOut":
-        return {
-          ...state,
-          isAuthenticated: false,
-        };
-
-      default:
-        throw new Error("Nie ma takiej akcji: " + action.type);
-    }
-  };
-
-  const initialState = {
-    hotels: [],
-    loading: true,
-    theme: "primary",
-    isAuthenticated: false,
-  };
-
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [lastHotel, setLastHotel] = useLocalStorage('last-hotel', null);
-  useWebTitle('Strona główna');
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch({ type: "set-hotels", hotels: backendHotels });
-      dispatch({ type: "set-loading", loading: false });
-    }, 1000);
-  }, []);
 
   const searchHandler = (term) => {
     const searchedHotels = [...backendHotels].filter((e) =>
@@ -102,20 +48,6 @@ function App() {
   const toggleTheme = () => {
     dispatch({ type: "change-theme" });
   };
-
-  const getBestHotel = () => {
-    if(state.hotels.length < 2) return null;
-
-    const stateHotels= [...state.hotels];
-    const compare = (a, b) => {
-      return a.rating > b.rating ? -1 : 1;
-    }
-
-    return stateHotels.sort(compare)[0];
-  };
-
-  const openHotel = (hotel) => setLastHotel(hotel);
-  const removeLastHotel = () => setLastHotel(null);
 
   const header = (
     <Header>
@@ -129,9 +61,7 @@ function App() {
   const content = (
     <>
       <Route exact path="/">
-        {lastHotel ? <LastHotel {...lastHotel} removeLastHotel={removeLastHotel} /> : null }
-        {getBestHotel() ? <BestHotel getBestHotel={getBestHotel} /> : null}
-        <Hotels hotels={state.hotels} onOpen={openHotel} />
+        <Home />
       </Route>
 
       <Route path="/hotels/:id"><h1>To jest jakiś hotel</h1></Route>
@@ -154,11 +84,16 @@ function App() {
             toggleTheme,
           }}
         >
-          <Layout
-            header={header}
-            menu={menu}
-            content={state.loading ? <LoadingIcon /> : content}
-            footer={footer} />
+          <ReducerContext.Provider value={{
+            state: state,
+            dispatch: dispatch,
+          }}>
+            <Layout
+              header={header}
+              menu={menu}
+              content={content}
+              footer={footer} />
+            </ReducerContext.Provider>
         </ThemeContext.Provider>
       </AuthContext.Provider>
     </Router>
