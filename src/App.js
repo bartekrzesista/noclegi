@@ -1,8 +1,7 @@
-import { useEffect, useReducer} from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { useReducer } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
-import LoadingIcon from "./components/UI/LoadingIcon/LoadingIcon";
 import Searchbar from "./components/UI/Searchbar/Searchbar";
 import Layout from "./components/Layout/Layout";
 import Footer from "./components/Footer/Footer";
@@ -12,7 +11,8 @@ import AuthContext from "./context/authContext";
 import ReducerContext from "./context/reducerContext";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
 import { reducer, initialState } from "./reducer";
-import Home from "./pages/Home/Home";
+import HomePage from "./pages/HomePage/HomePage";
+import HotelPage from "./pages/HotelPage/HotelPage";
 
 const backendHotels = [
   {
@@ -59,13 +59,10 @@ function App() {
   const menu = <Menu />;
 
   const content = (
-    <>
-      <Route exact path="/">
-        <Home />
-      </Route>
-
-      <Route path="/hotels/:id"><h1>To jest jakiś hotel</h1></Route>
-    </>
+    <Switch>
+      <Route path="/hotels/:id" component={HotelPage} />
+      <Route path="/" component={HomePage} />
+    </Switch>
   );
   const footer = <Footer />;
 

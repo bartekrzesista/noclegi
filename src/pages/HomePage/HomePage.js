@@ -28,7 +28,7 @@ const backendHotels = [
     },
   ];
 
-export default function Home() {
+export default function HomePage() {
     useWebTitle('Strona główna');
     const [lastHotel, setLastHotel] = useLocalStorage('last-hotel', null);
     const reducer = useContext(ReducerContext);
