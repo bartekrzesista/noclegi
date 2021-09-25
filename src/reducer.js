@@ -3,20 +3,10 @@ export const reducer = (state, action) => {
       // const newState = {...state};
       // newState.theme = state.theme === "primary" ? "warning" : "primary";
       // return newState;
-      case "set-hotels":
-        return {
-          ...state,
-          hotels: action.hotels,
-        };
       case "change-theme":
         return {
           ...state,
           theme: state.theme === "primary" ? "warning" : "primary",
-        };
-      case "set-loading":
-        return {
-          ...state,
-          loading: action.loading,
         };
       case "signIn":
         return {
