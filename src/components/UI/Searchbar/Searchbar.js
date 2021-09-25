@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import ThemeContext from "../../../context/themeContext";
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 function Searchbar(props) {
   const [term, setTerm] = useState("");
   const themeContext = useContext(ThemeContext);
   const inputRef = useRef();
+  const history = useHistory();
 
   const search = () => {
-    props.history.push(`/search/${term}`);
+    history.push(`/search/${term}`);
   };
 
   // const onKeyDownHandler = (e) => {
@@ -43,4 +44,4 @@ function Searchbar(props) {
   );
 }
 
-export default withRouter(Searchbar);
+export default Searchbar;
