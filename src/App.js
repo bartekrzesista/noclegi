@@ -14,6 +14,7 @@ import { reducer, initialState } from "./reducer";
 import HomePage from "./pages/HomePage/HomePage";
 import HotelPage from "./pages/HotelPage/HotelPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -36,6 +37,7 @@ function App() {
       <Switch>
         <Route path="/hotels/:id" component={HotelPage} />
         <Route path="/search/:term" component={SearchPage} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/" component={HomePage} />
       </Switch>
     </>

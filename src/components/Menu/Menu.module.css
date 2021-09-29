@@ -11,6 +11,10 @@
     justify-content: space-around;
 }
 
+.menuItemActive {
+    text-decoration: underline;
+}
+
 .signButton {
     background: transparent;
     border: none;
