@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Searchbar from "./components/UI/Searchbar/Searchbar";
@@ -16,6 +16,7 @@ import HotelPage from "./pages/HotelPage/HotelPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import NotFound from "./pages/NotFound/NotFound";
+import LoginPage from "./pages/Auth/LoginPage/LoginPage";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -38,7 +39,10 @@ function App() {
       <Switch>
         <Route path="/hotels/:id" component={HotelPage} />
         <Route path="/search/:term?" component={SearchPage} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/profile">
+          {state.isAuthenticated ? <ProfilePage /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/login" component={LoginPage} />
         <Route path="/" exact component={HomePage} />
         <Route component={NotFound} />
       </Switch>
