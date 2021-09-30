@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
@@ -16,8 +16,8 @@ import HotelPage from "./pages/HotelPage/HotelPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import NotFound from "./pages/NotFound/NotFound";
 import LoginPage from "./pages/Auth/LoginPage/LoginPage";
-import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute";
+const  ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage"));
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -37,17 +37,16 @@ function App() {
 
   const content = (
     <>
-      <Switch>
-        <AuthenticatedRoute path="/profile"  component={ProfilePage} />
-        <Route path="/hotels/:id" component={HotelPage} />
-        <Route path="/search/:term?" component={SearchPage} />
-        {/* <Route path="/profile">
-          {state.isAuthenticated ? <ProfilePage /> : <Redirect to="/login" />}
-        </Route> */}
-        <Route path="/login" component={LoginPage} />
-        <Route path="/" exact component={HomePage} />
-        <Route component={NotFound} />
-      </Switch>
+      <Suspense fallback={<p>Ładowanie...</p>}>
+        <Switch>
+          <AuthenticatedRoute path="/profile"  component={ProfilePage} />
+          <Route path="/hotels/:id" component={HotelPage} />
+          <Route path="/search/:term?" component={SearchPage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/" exact component={HomePage} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
     </>
   );
   const footer = <Footer />;
