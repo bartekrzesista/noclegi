@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function LastHotel(props) {
     if(!props) return null;
 
@@ -9,7 +11,7 @@ function LastHotel(props) {
                 <span className="badge bg-light text-dark">{props.city}</span>
             </div>
             <div className="d-flex justify-content-end mb-2 me-2">
-                <button type="button" className="btn btn-sm btn-dark px-3 mx-2">Tak</button>
+                <Link to={`/hotels/${props.id}`} className="btn btn-sm btn-dark px-3 mx-2">Tak</Link>
                 <button type="button" className="btn btn-sm btn-dark px-3" onClick={props.removeLastHotel}>Nie</button>
             </div>
         </div>
