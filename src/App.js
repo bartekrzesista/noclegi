@@ -17,6 +17,7 @@ import SearchPage from "./pages/SearchPage/SearchPage";
 import NotFound from "./pages/NotFound/NotFound";
 import LoginPage from "./pages/Auth/LoginPage/LoginPage";
 import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute";
+import ErrorBoundary from "./hoc/ErrorBoundary";
 const  ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage"));
 
 function App() {
@@ -37,16 +38,18 @@ function App() {
 
   const content = (
     <>
-      <Suspense fallback={<p>Ładowanie...</p>}>
-        <Switch>
-          <AuthenticatedRoute path="/profile"  component={ProfilePage} />
-          <Route path="/hotels/:id" component={HotelPage} />
-          <Route path="/search/:term?" component={SearchPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/" exact component={HomePage} />
-          <Route component={NotFound} />
-        </Switch>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<p>Ładowanie...</p>}>
+          <Switch>
+            <AuthenticatedRoute path="/profile"  component={ProfilePage} />
+            <Route path="/hotels/:id" component={HotelPage} />
+            <Route path="/search/:term?" component={SearchPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/" exact component={HomePage} />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
   const footer = <Footer />;
