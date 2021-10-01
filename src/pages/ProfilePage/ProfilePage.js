@@ -5,8 +5,6 @@ import MyHotels from './MyHotels/MyHotels';
 export default function ProfilePage() {
   const {path, url} = useRouteMatch();
 
-  throw new Error('Problem z siecią');
-
   return (
     <div className="card">
       <div className="card-header">

@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 
 export default function useWebTitle(title) {
+    const setTitle = newTitle => {
+        document.title = newTitle;
+    };
+
     useEffect(() => {
-        document.title = title;
+        if(title) {
+            document.title = title;
+        }
     }, [title]);
+
+    return setTitle;
 }
