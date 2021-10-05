@@ -11,6 +11,6 @@ export default function LoadingButton(props) {
       <span className="visually-hidden">Ładowanie...</span>
     </button>
   ) : (
-    <button className={`btn ${className}`}>{props.label}</button>
+    <button {...props} className={`btn ${className}`}>{props.children}</button>
   );
 }
