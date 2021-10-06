@@ -16,8 +16,9 @@ import HotelPage from "./pages/HotelPage/HotelPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import NotFound from "./pages/NotFound/NotFound";
 import LoginPage from "./pages/Auth/LoginPage/LoginPage";
-import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute";
+import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import ErrorBoundary from "./hoc/ErrorBoundary";
+import AddHotel from "./pages/ProfilePage/MyHotels/AddHotel/AddHotel";
 const  ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage"));
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
       <ErrorBoundary>
         <Suspense fallback={<p>Ładowanie...</p>}>
           <Switch>
-            <AuthenticatedRoute path="/profile"  component={ProfilePage} />
+            <AuthenticatedRoute path="/profile/hotels/add-hotel" component={AddHotel} />
+            <AuthenticatedRoute path="/profile" component={ProfilePage} />
             <Route path="/hotels/:id" component={HotelPage} />
             <Route path="/search/:term?" component={SearchPage} />
             <Route path="/login" component={LoginPage} />

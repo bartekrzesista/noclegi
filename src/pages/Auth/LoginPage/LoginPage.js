@@ -23,8 +23,8 @@ export default function LoginPage() {
       } else {
         setValid(false);
         setPassword('');
+        setLoading(false);
       }
-      setLoading(false);
     }, 500);
   };
 
