@@ -3,15 +3,40 @@ import Input from "../../../../components/Input/Input";
 import LoadingButton from "../../../../components/UI/LoadingButton/LoadingButton";
 
 const AddHotel = (props) => {
+  // const [form, setForm] = useState({
+  //   name: '',
+  //   description: '',
+  //   city: '',
+  //   rooms: 2,
+  //   features: [],
+  //   image: null,
+  //   isActive: true,
+  // });
   const [form, setForm] = useState({
-    name: '',
-    description: '',
-    city: '',
+    name: {
+      value: '',
+      error: '',
+      showError: false,
+      rules: ['required']
+    },
+    description: {
+      value: '',
+      error: '',
+      showError: false,
+      rules: ['required']
+    },
+    city: {
+      value: '',
+      error: '',
+      showError: false,
+      rules: ['required']
+    },
     rooms: 2,
     features: [],
     image: null,
     isActive: true,
   });
+
   const [loading, setLoading] = useState(false);
 
   const submit = (e) => {
@@ -23,6 +48,18 @@ const AddHotel = (props) => {
     }, 500);
   };
 
+  const textChangeHandler = (value, fieldName) => {
+    setForm({
+      ...form,
+      [fieldName]: {
+        ...form[fieldName],
+        value,
+        error: 'Pole wymagane',
+        showError: true
+      }
+    });
+  };
+
   return (
     <div className="card">
       <h2 className="card-header">Nowy hotel</h2>
@@ -30,29 +67,30 @@ const AddHotel = (props) => {
         <p className="text-muted">Uzupełnij dane hotelu</p>
         <form onSubmit={submit}>
           <Input
+            type="text"
             label="Nazwa"
             id="name"
-            value={form.name}
-            onChange={value => setForm({...form, name: value})}
-            error=""
-            showError={false} />
+            value={form.name.value}
+            onChange={val => textChangeHandler(val, 'name')}
+            error={form.name.error}
+            showError={form.name.showError} />
 
           <Input
             type="textarea"
             label="Opis"
             id="description"
-            value={form.description}
-            onChange={value => setForm({...form, description: value})}
-            error=""
-            showError={false} />
+            value={form.description.value}
+            onChange={val => textChangeHandler(val, 'description')}
+            error={form.description.error}
+            showError={form.description.showError} />
 
           <Input
             label="Miejscowość"
             id="city"
-            value={form.city}
-            onChange={value => setForm({...form, city: value})}
-            error=""
-            showError={false} />
+            value={form.city.value}
+            onChange={val => textChangeHandler(val, 'city')}
+            error={form.city.error}
+            showError={form.city.showError} />
 
           <Input
             label="Liczba pokoi"
