@@ -11,15 +11,15 @@ import AuthContext from "./context/authContext";
 import ReducerContext from "./context/reducerContext";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
 import { reducer, initialState } from "./reducer";
-import HomePage from "./pages/HomePage/HomePage";
+import Home from "./pages/Home/Home";
 import HotelPage from "./pages/HotelPage/HotelPage";
-import SearchPage from "./pages/SearchPage/SearchPage";
+import Search from "./pages/Search/Search";
 import NotFound from "./pages/NotFound/NotFound";
-import LoginPage from "./pages/Auth/LoginPage/LoginPage";
+import Login from "./pages/Auth/Login/Login";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import ErrorBoundary from "./hoc/ErrorBoundary";
-import AddHotel from "./pages/ProfilePage/MyHotels/AddHotel/AddHotel";
-const  ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage"));
+import AddHotel from "./pages/Profile/MyHotels/AddHotel/AddHotel";
+const  Profile = lazy(() => import("./pages/Profile/Profile"));
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -43,11 +43,11 @@ function App() {
         <Suspense fallback={<p>Ładowanie...</p>}>
           <Switch>
             <AuthenticatedRoute path="/profile/hotels/add-hotel" component={AddHotel} />
-            <AuthenticatedRoute path="/profile" component={ProfilePage} />
+            <AuthenticatedRoute path="/profile" component={Profile} />
             <Route path="/hotels/:id" component={HotelPage} />
-            <Route path="/search/:term?" component={SearchPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/" exact component={HomePage} />
+            <Route path="/search/:term?" component={Search} />
+            <Route path="/login" component={Login} />
+            <Route path="/" exact component={Home} />
             <Route component={NotFound} />
           </Switch>
         </Suspense>

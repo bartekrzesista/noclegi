@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 
-export default function SearchPage() {
+export default function Search() {
     const { term } = useParams();
 
     // const searchHandler = (term) => {

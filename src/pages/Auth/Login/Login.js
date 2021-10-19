@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 
-export default function LoginPage() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

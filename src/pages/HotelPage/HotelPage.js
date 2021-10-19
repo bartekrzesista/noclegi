@@ -1,10 +1,8 @@
 import { useEffect, useState} from "react";
-import { useParams } from 'react-router-dom';
 import LoadingIcon from "../../components/UI/LoadingIcon/LoadingIcon";
 import useWebTitle from "../../hooks/useWebTitle";
 
 function HotelPage() {
-    const { id } = useParams();
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
     const setTitle = useWebTitle();
