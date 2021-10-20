@@ -16,7 +16,7 @@ function Menu() {
         {auth ? (
           <>
             <li>
-              <NavLink to="/profile"  activeClassName={styles.menuItemActive}>
+              <NavLink to="/profile" activeClassName={styles.menuItemActive}>
                 Mój profil
               </NavLink>
             </li>
@@ -31,15 +31,22 @@ function Menu() {
             </li>
           </>
         ) : (
-          <li>
-            <button
-              type="button"
-              className={styles.signButton}
-              onClick={(e) => setAuth(true)}
-            >
-              Zaloguj
-            </button>
-          </li>
+          <>
+            <li>
+              <button
+                type="button"
+                className={styles.signButton}
+                onClick={(e) => setAuth(true)}
+              >
+                Zaloguj
+              </button>
+            </li>
+            <li>
+              <NavLink to="/register" activeClassName={styles.menuItemActive}>
+                Zarejestruj się
+              </NavLink>
+            </li>
+          </>
         )}
       </ul>
     </nav>

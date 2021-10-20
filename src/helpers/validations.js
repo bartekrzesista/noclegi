@@ -8,9 +8,11 @@ const availableRules = {
   required(value) {
     return value ? '' : 'Pole wymagane';
   },
-
   minLength(value, rule) {
     return value.length > rule.length ? '' : `Min. znaków: ${rule.length}`;
+  },
+  email(value) {
+    return validateEmail(value) ? '' : 'Niepoprawny email';
   }
 };
 

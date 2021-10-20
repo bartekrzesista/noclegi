@@ -1,5 +1,6 @@
 import { useReducer, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { reducer, initialState } from "./reducer";
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Searchbar from "./components/UI/Searchbar/Searchbar";
@@ -10,7 +11,6 @@ import ThemeContext from "./context/themeContext";
 import AuthContext from "./context/authContext";
 import ReducerContext from "./context/reducerContext";
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote";
-import { reducer, initialState } from "./reducer";
 import Home from "./pages/Home/Home";
 import HotelPage from "./pages/HotelPage/HotelPage";
 import Search from "./pages/Search/Search";
@@ -19,6 +19,7 @@ import Login from "./pages/Auth/Login/Login";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import ErrorBoundary from "./hoc/ErrorBoundary";
 import AddHotel from "./pages/Profile/MyHotels/AddHotel/AddHotel";
+import Register from "./pages/Auth/Register/Register";
 const  Profile = lazy(() => import("./pages/Profile/Profile"));
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="/hotels/:id" component={HotelPage} />
             <Route path="/search/:term?" component={Search} />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             <Route path="/" exact component={Home} />
             <Route component={NotFound} />
           </Switch>
