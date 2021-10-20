@@ -34,8 +34,8 @@ function InputText(props) {
       <input
         type={props.type}
         id={props.id}
-        className={`form-control ${
-          props.error && props.showError ? "is-invalid" : ""
+        className={`form-control${
+          props.error && props.showError ? " is-invalid" : ""
         }`}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
@@ -53,8 +53,8 @@ function InputTextarea(props) {
       </label>
       <textarea
         id={props.id}
-        className={`form-control ${
-          props.error && props.showError ? "is-invalid" : ""
+        className={`form-control${
+          props.error && props.showError ? " is-invalid" : ""
         }`}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}

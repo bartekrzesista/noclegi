@@ -1,17 +1,9 @@
 import { useState } from "react";
 import Input from "../../../../components/Input/Input";
 import LoadingButton from "../../../../components/UI/LoadingButton/LoadingButton";
+import { validate } from "../../../../helpers/validations";
 
 const AddHotel = (props) => {
-  // const [form, setForm] = useState({
-  //   name: '',
-  //   description: '',
-  //   city: '',
-  //   rooms: 2,
-  //   features: [],
-  //   image: null,
-  //   isActive: true,
-  // });
   const [form, setForm] = useState({
     name: {
       value: '',
@@ -23,7 +15,7 @@ const AddHotel = (props) => {
       value: '',
       error: '',
       showError: false,
-      rules: ['required']
+      rules: ['required', {name: 'minLength', length: 20}]
     },
     city: {
       value: '',
@@ -49,12 +41,14 @@ const AddHotel = (props) => {
   };
 
   const textChangeHandler = (value, fieldName) => {
+    const error  = validate(form[fieldName].rules, value);
+
     setForm({
       ...form,
       [fieldName]: {
         ...form[fieldName],
         value,
-        error: 'Pole wymagane',
+        error,
         showError: true
       }
     });
