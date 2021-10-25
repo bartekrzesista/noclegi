@@ -79,6 +79,17 @@ export default function Register(props) {
     e.preventDefault();
     setLoading(true);
 
+    fetch('https://noclegi-80602-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
+      // method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      // body: JSON.stringify({email: 'test@email.com', password: 'haslo123'})
+    })
+    .then(res => res.json())
+    .then(res => console.log(res));
+
     setTimeout(() => {
       setLoading(false);
     }, 500);
