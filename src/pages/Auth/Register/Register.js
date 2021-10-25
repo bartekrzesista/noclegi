@@ -22,27 +22,58 @@ export default function Register(props) {
       value: "",
       error: "",
       showError: false,
-      rules: ["required", { name: "minLength", length: 10 }],
+      rules: ["required", { name: "minLength", length: 10 }, "matchPassword"],
     },
   });
+
+  const changeHandler = (value, fieldName) => {
+    let error = validate(form[fieldName].rules, value);
+
+    switch(fieldName) {
+      case 'password':
+        setForm({
+          ...form,
+          [fieldName]: {
+            ...form[fieldName],
+            value,
+            error,
+            showError: true,
+          },
+          confirmPassword: {
+            ...form.confirmPassword,
+            value: '',
+          },
+        });
+        break;
+      case 'confirmPassword':
+        const matchValue = form.password.value;
+        error =  validate(form[fieldName].rules, value, matchValue);
+        setForm({
+          ...form,
+          [fieldName]: {
+            ...form[fieldName],
+            value,
+            error,
+            showError: true,
+          },
+        });
+        break;
+      default: 
+        setForm({
+          ...form,
+          [fieldName]: {
+            ...form[fieldName],
+            value,
+            error,
+            showError: true,
+          },
+        });
+    }
+  };
 
   const valid = !Object.values(form)
     .map((input) => input.error)
     .filter((e) => e).length;
-
-  const changeHandler = (value, fieldName) => {
-    const error = validate(form[fieldName].rules, value);
-
-    setForm({
-      ...form,
-      [fieldName]: {
-        ...form[fieldName],
-        value,
-        error,
-        showError: true,
-      },
-    });
-  };
 
   const submit = (e) => {
     e.preventDefault();

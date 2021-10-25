@@ -9,24 +9,29 @@ const availableRules = {
     return value ? '' : 'Pole wymagane';
   },
   minLength(value, rule) {
-    return value.length > rule.length ? '' : `Min. znaków: ${rule.length}`;
+    return value.length >= rule.length ? '' : `Minimum znaków: ${rule.length}`;
   },
   email(value) {
     return validateEmail(value) ? '' : 'Niepoprawny email';
+  },
+  matchPassword(value, matchValue) {
+    if(matchValue) return value === matchValue ? '' : 'Hasła są niezgodne';
+    else return '';
   }
 };
 
-export function validate(rules = [], value) {
+export function validate(rules = [], value, matchValue) {
   for (let i = 0; i < rules.length; i++) {
     if(rules[i] instanceof Object) {
-      const errorMessage = availableRules[rules[i].name](value, rules[i]);
+      const rule = rules[i];
+      const errorMessage = availableRules[rule.name](value, rule);
       if (errorMessage) return errorMessage;
     }
     else {
-      const errorMessage = availableRules[rules[i]](value);
+      const errorMessage = availableRules[rules[i]](value, matchValue);
       if (errorMessage) return errorMessage;
     }
-  } 
+  }
 
   return '';
 }
