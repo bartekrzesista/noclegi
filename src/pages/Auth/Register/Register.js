@@ -2,6 +2,7 @@ import { useState } from "react";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 import Input from "../../../components/Input/Input";
 import { validate } from "../../../helpers/validations";
+import axios from 'axios';
 
 export default function Register(props) {
   const [loading, setLoading] = useState(false);
@@ -75,20 +76,12 @@ export default function Register(props) {
     .map((input) => input.error)
     .filter((e) => e).length;
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    fetch('https://noclegi-80602-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
-      // method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      // body: JSON.stringify({email: 'test@email.com', password: 'haslo123'})
-    })
-    .then(res => res.json())
-    .then(res => console.log(res));
+    const res = await axios.get('https://noclegi-80602-default-rtdb.europe-west1.firebasedatabase.app/users.json');
+    console.log(res);
 
     setTimeout(() => {
       setLoading(false);
