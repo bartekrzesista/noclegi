@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 import Input from "../../../components/Input/Input";
 import { validate } from "../../../helpers/validations";
 import axios from '../../../axios';
+import useAuth from "../../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
 
 export default function Register(props) {
+  const [auth, setAuth] = useAuth();
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     email: {
@@ -80,13 +84,24 @@ export default function Register(props) {
     e.preventDefault();
     setLoading(true);
 
-    const res = await axios.get('/users.json');
-    console.log(res.data);
+    try {
+      const res = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_NOT_SO_SECRET_KEY}`, {
+        email: form.email.value,
+        password: form.password.value,
+        returnSecureToken: true
+      });
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+      setAuth(true, res.data);
+      history.push('/');
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if(auth) history.push('/');
+  }, [auth]);
 
   return (
     <div className="card">
