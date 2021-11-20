@@ -93,12 +93,14 @@ export default function Register(props) {
       });
 
       setAuth(true, res.data);
+      setLoading(false);
       history.push('/');
+
     } catch (e) {
       setError(e.response.data.error.message);
+      setLoading(false);
       console.log(e.response);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -141,7 +143,7 @@ export default function Register(props) {
             showError={form.confirmPassword.showError}
           />
           {error === 'EMAIL_EXISTS'
-            ? <div className="alert alert-danger mt-2">Podany email już istnieje w bazie</div>
+            ? <div className="alert alert-danger mt-2">Podany email już istnieje w bazie.</div>
             : (error ? <div className="alert alert-danger mt-2">{error}</div>
             : null)
           }

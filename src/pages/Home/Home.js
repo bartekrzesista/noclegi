@@ -34,10 +34,14 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           setHotels(backendHotels);
           setLoading(false);
         }, 1000);
+
+        return () => {
+          clearTimeout(timeout);
+        };
       }, []);
 
     const openHotel = (hotel) => setLastHotel(hotel);
