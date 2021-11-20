@@ -21,15 +21,16 @@ export default function Register(props) {
       value: "",
       error: "",
       showError: false,
-      rules: ["required", { name: "minLength", length: 10 }],
+      rules: ["required", { name: "minLength", length: 6 }],
     },
     confirmPassword: {
       value: "",
       error: "",
       showError: false,
-      rules: ["required", { name: "minLength", length: 10 }, "matchPassword"],
+      rules: ["required", { name: "minLength", length: 6 }, "matchPassword"],
     },
   });
+  const [error, setError] = useState('');
 
   const changeHandler = (value, fieldName) => {
     let error = validate(form[fieldName].rules, value);
@@ -94,7 +95,8 @@ export default function Register(props) {
       setAuth(true, res.data);
       history.push('/');
     } catch (e) {
-      console.log(e);
+      setError(e.response.data.error.message);
+      console.log(e.response);
     }
     setLoading(false);
   };
@@ -138,6 +140,11 @@ export default function Register(props) {
             error={form.confirmPassword.error}
             showError={form.confirmPassword.showError}
           />
+          {error === 'EMAIL_EXISTS'
+            ? <div className="alert alert-danger mt-2">Podany email już istnieje w bazie</div>
+            : (error ? <div className="alert alert-danger mt-2">{error}</div>
+            : null)
+          }
 
           <div className="d-flex justify-content-end mt-3">
             <LoadingButton
