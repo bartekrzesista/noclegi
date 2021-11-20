@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 import Input from "../../../components/Input/Input";
 import { validate } from "../../../helpers/validations";
-import axios from '../../../axios';
+import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
 

@@ -26,7 +26,6 @@ export const reducer = (state, action) => {
 
   export const initialState = {
     hotels: [],
-    loading: true,
     theme: "primary",
     isAuthenticated: false,
   };
