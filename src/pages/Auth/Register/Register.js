@@ -92,14 +92,16 @@ export default function Register(props) {
         returnSecureToken: true
       });
 
-      setAuth(true, res.data);
-      setLoading(false);
+      setAuth(true, {
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.localId
+      });
       history.push('/');
 
     } catch (e) {
       setError(e.response.data.error.message);
       setLoading(false);
-      console.log(e.response);
     }
   };
 

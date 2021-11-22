@@ -2,39 +2,61 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [valid, setValid] = useState(null);
+  const [error, setError] = useState('');
 
   const [auth, setAuth] = useAuth();
   const history = useHistory();
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      if (true) {
-        setAuth(true);
-        history.push("/");
-      } else {
-        setValid(false);
-        setPassword('');
-        setLoading(false);
-      }
-    }, 500);
+    try {
+      const res = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_NOT_SO_SECRET_KEY}`, {
+        email,
+        password,
+        returnSecureToken: true
+      });
+      
+      setAuth(true, {
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.localId
+      });
+      history.push('/');
+
+    } catch (e) {
+      setError(e.response.data.error.message);
+      setLoading(false);
+    }
   };
+
+  const getErrorMessage = (error) => {
+    switch(error) {
+      case 'EMAIL_NOT_FOUND': 
+        return 'Nieprawidłowy adres email.';
+
+      case 'INVALID_PASSWORD':
+        return 'Nieprawidłowe hasło.';
+
+      default: return 'Za dużo prób logowania. Spróbuj później.';
+    }
+  }
 
   return (
     <div>
       <h2 className="mb-4">Logowanie</h2>
 
-      {valid === false ? (
-        <div className="alert alert-danger">Niepoprawne dane logowania</div>
-      ) : null}
+      {error
+        ? <div className="alert alert-danger">{getErrorMessage(error)}</div>
+        : null
+      }
 
       <form onSubmit={submit}>
         <label htmlFor="loginEmail" className="form-label">

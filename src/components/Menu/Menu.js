@@ -33,13 +33,9 @@ function Menu() {
         ) : (
           <>
             <li>
-              <button
-                type="button"
-                className={styles.signButton}
-                onClick={(e) => setAuth(true)}
-              >
+              <NavLink to="/login" activeClassName={styles.menuItemActive}>
                 Zaloguj
-              </button>
+              </NavLink>
             </li>
             <li>
               <NavLink to="/register" activeClassName={styles.menuItemActive}>
