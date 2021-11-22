@@ -11,12 +11,12 @@ export const reducer = (state, action) => {
       case "signIn":
         return {
           ...state,
-          isAuthenticated: true,
+          user: action.user,
         };
       case "signOut":
         return {
           ...state,
-          isAuthenticated: false,
+          user: null,
         };
 
       default:
@@ -24,10 +24,9 @@ export const reducer = (state, action) => {
     }
   };
 
-  const isAuthenticated = JSON.parse(localStorage.getItem('token-data')) ? true : false;
+  const user = JSON.parse(localStorage.getItem('token-data')) ?? null;
 
   export const initialState = {
-    hotels: [],
     theme: "primary",
-    isAuthenticated
+    user
   };

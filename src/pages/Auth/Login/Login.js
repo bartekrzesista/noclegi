@@ -24,7 +24,7 @@ export default function Login() {
         returnSecureToken: true
       });
       
-      setAuth(true, {
+      setAuth({
         email: res.data.email,
         token: res.data.idToken,
         userId: res.data.localId

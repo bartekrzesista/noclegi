@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 import { validateEmail } from "../../../helpers/validations";
+import useAuth from "../../../hooks/useAuth";
+
 
 export default function ProfileDetails() {
-  const [email, setEmail] = useState("jakis.email@gmail.com");
+  const [auth] = useAuth();
+  const [email, setEmail] = useState(auth.email);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({

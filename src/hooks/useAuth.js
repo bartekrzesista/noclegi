@@ -3,13 +3,11 @@ import AuthContext from "../context/authContext";
 
 export default function useAuth() {
     const authContext = useContext(AuthContext);
-    const auth = authContext.isAuthenticated;
-    const setAuth = (isAuthenticated, tokenData = null) => {
-        if (isAuthenticated) {
-            authContext.signIn();
-            if(tokenData) {
-                localStorage.setItem('token-data', JSON.stringify(tokenData));
-            }
+    const auth = authContext.user;
+    const setAuth = (user) => {
+        if (user) {
+            authContext.signIn(user);
+            localStorage.setItem('token-data', JSON.stringify(user));
         }
         else {
             authContext.signOut();

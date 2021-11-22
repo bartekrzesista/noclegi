@@ -4,9 +4,10 @@ import ReducerContext from "../context/reducerContext";
 
 export default function AuthenticatedRoute(props) {
     const context = useContext(ReducerContext);
+    console.log(context);
 
     return (
-        context.state.isAuthenticated
+        context.state.user
         ? <Route {...props} />
         : <Redirect to="/login" />
     );
