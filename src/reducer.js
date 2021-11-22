@@ -24,8 +24,10 @@ export const reducer = (state, action) => {
     }
   };
 
+  const isAuthenticated = JSON.parse(localStorage.getItem('token-data')) ? true : false;
+
   export const initialState = {
     hotels: [],
     theme: "primary",
-    isAuthenticated: false,
+    isAuthenticated
   };

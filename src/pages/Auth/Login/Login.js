@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
@@ -48,6 +48,10 @@ export default function Login() {
       default: return 'Za dużo prób logowania. Spróbuj później.';
     }
   }
+
+  useEffect(() => {
+    if(auth) history.push('/');
+  }, [auth]);
 
   return (
     <div>
