@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
-import axios from "axios";
+import axios from "../../../axios-auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_NOT_SO_SECRET_KEY}`, {
+      const res = await axios.post('/accounts:signInWithPassword', {
         email,
         password,
         returnSecureToken: true
