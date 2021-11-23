@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import LoadingButton from "../../../components/UI/LoadingButton/LoadingButton";
 import { validateEmail } from "../../../helpers/validations";
 import useAuth from "../../../hooks/useAuth";
-
+import axios from "../../../axios-auth";
 
 export default function ProfileDetails() {
-  const [auth] = useAuth();
+  const [auth, setAuth] = useAuth();
   const [email, setEmail] = useState(auth.email);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,6 +13,7 @@ export default function ProfileDetails() {
       email: '',
       password: '',
   });
+  const [success, setSuccess] = useState(null);
 
   const buttonDisabled = Object.values(errors).filter(x => x).length;
 
@@ -25,24 +26,46 @@ export default function ProfileDetails() {
   }, [email]);
 
   useEffect(() => {
-      if (password.length >= 8 || !password) {
+      if (password.length >= 6 || !password) {
           setErrors({...errors, password: ''});
       }
-      else setErrors({...errors, password: 'Wymagane 8 znaków'});
+      else setErrors({...errors, password: 'Wymagane 6 znaków'});
 }, [password]);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      const data = {
+        idToken: auth.token,
+        email,
+        returnSecureToken: true
+      };
+      if (password) data.password = password;
 
-      setLoading(false);
-    }, 500);
+      const res = await axios.post('/accounts:update', data);
+
+      setAuth({
+        email: res.data.email,
+        token: res.data.idToken,
+        userId: res.data.localId
+      });
+      setSuccess(true);
+
+    } catch (e) {
+      console.log(e.response);
+    }
+
+    setLoading(false);
   };
 
   return (
     <form onSubmit={submit}>
+      {success
+        ? <div className="alert alert-success">Dane zostały zapisane.</div>
+        : null
+      }
       <div className="form-group">
         <label htmlFor="loginEmail" className="form-label">
           Email
