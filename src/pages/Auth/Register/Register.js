@@ -77,7 +77,7 @@ export default function Register(props) {
     }
   };
 
-  const valid = !Object.values(form)
+  const isValid = !Object.values(form)
     .map((input) => input.error)
     .filter((e) => e).length;
 
@@ -154,7 +154,7 @@ export default function Register(props) {
             <LoadingButton
               loading={loading}
               className="btn-success"
-              disabled={!valid}
+              disabled={!isValid}
             >
               Zarejestruj
             </LoadingButton>

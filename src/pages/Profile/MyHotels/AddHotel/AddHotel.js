@@ -2,8 +2,13 @@ import { useState } from "react";
 import Input from "../../../../components/Input/Input";
 import LoadingButton from "../../../../components/UI/LoadingButton/LoadingButton";
 import { validate } from "../../../../helpers/validations";
+import axios from "../../../../axios";
+import useAuth from "../../../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
 
 const AddHotel = (props) => {
+  const [auth] = useAuth();
+  const history = useHistory();
   const [form, setForm] = useState({
     name: {
       value: '',
@@ -31,14 +36,31 @@ const AddHotel = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      await axios.post(`/hotels.json?auth=${auth.token}`, {
+        name: form.name.value,
+        description: form.description.value,
+        city: form.city.value,
+        rooms: form.rooms,
+        features: form.features,
+        isActive: form.isActive,
+        user_id: auth.userId
+      });
+
+      history.push('/profile/hotels');
+    } catch (e) {
+      console.log(e.response);
       setLoading(false);
-    }, 500);
+    }
   };
+
+  const isValid = !Object.values(form)
+      .map((input) => input?.error)
+      .filter((e) => e).length;
 
   const textChangeHandler = (value, fieldName) => {
     const error  = validate(form[fieldName].rules, value);
@@ -130,6 +152,7 @@ const AddHotel = (props) => {
           <div className="d-flex justify-content-end mt-3">
           <LoadingButton
           loading={loading}
+          disabled={!isValid}
           className="btn-success">
               Dodaj hotel
             </LoadingButton>
