@@ -9,8 +9,15 @@ import { Link } from "react-router-dom";
 Hotel.propTypes = {
   name: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
+  rating: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
   description: PropTypes.string.isRequired,
+};
+
+Hotel.defaultProps = {
+  rating: 'Brak oceny'
 };
 
 function Hotel(props) {
@@ -35,7 +42,11 @@ function Hotel(props) {
                 <span className="badge bg-dark mb-3">{props.city}</span>
               </div>
               <div className="col text-right px-2">
-                <h5>Ocena: {props.rating}</h5>
+                <h5>{props.rating === 'Brak oceny'
+                  ? props.rating
+                  : `Ocena: ${props.rating}`
+                  }
+                </h5>
                 <Link
                   to={`/hotels/${props.id}`}
                   className={`btn btn-${theme.theme} mt-2 px-4`}
@@ -51,7 +62,7 @@ function Hotel(props) {
           <p className={styles.description}>{props.description}</p>
         </div>
         {auth ? (
-          <p className="mt-2">Dostępne pokoje: 4</p>
+          <p className="mt-2">Dostępne pokoje: {props.rooms}</p>
         ) : (
           <p className="mt-2">Dostępne pokoje: Zaloguj</p>
         )}
