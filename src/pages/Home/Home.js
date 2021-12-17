@@ -8,27 +8,6 @@ import LoadingIcon from "../../components/UI/LoadingIcon/LoadingIcon";
 import axios from "../../axios";
 import { objectToArrayWithId } from "../../helpers/objects";
 
-// const backendHotels = [
-//     {
-//       id: 1,
-//       name: "Pod akacjami",
-//       city: "Warszawa",
-//       rating: 8.3,
-//       description:
-//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque consequat id lorem vitae accumsan.",
-//       image: "",
-//     },
-//     {
-//       id: 2,
-//       name: "Dębowy",
-//       city: "Lublin",
-//       rating: 8.8,
-//       description:
-//         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-//       image: "",
-//     },
-//   ];
-
 export default function Home() {
     useWebTitle('Strona główna');
     const [lastHotel, setLastHotel] = useLocalStorage('last-hotel', null);

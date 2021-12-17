@@ -1,33 +1,39 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import LoadingIcon from "../../components/UI/LoadingIcon/LoadingIcon";
 import useWebTitle from "../../hooks/useWebTitle";
+import axios from "../../axios";
+import { useParams } from 'react-router';
 
 function HotelPage() {
+    const { id } = useParams();
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
     const setTitle = useWebTitle();
 
-    const fetchHotel = () => {
-        setHotel({
-            id: 2,
-            name: "Dębowy",
-            city: "Lublin",
-            rating: 8.8,
-            description:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            image: "",
-          });
-        setTitle('Hotel - Dębowy');  
-        setLoading(false); 
+    const fetchHotel = async () => {
+        try {
+            const res = await axios.get(`/hotels/${id}.json`);
+            setHotel(res.data);
+            console.log(res.data)
+            setTitle(`Hotel - ${res.data.name}`);  
+            setLoading(false);
+        } catch (e) {
+            console.log(e.response);
+        }
+        
     };
 
     useEffect(() => {
-        // pobieranie danych
-        setTimeout(fetchHotel, 500);
+        fetchHotel();
     }, []);
 
     return loading ? <LoadingIcon /> : (
-        <h1>Hotel: {hotel.name}</h1>
+        <>
+            <h1>Hotel: {hotel.name}</h1>
+            <p>Liczba pokoi: {hotel.rooms}</p>
+            <p>Ocena: {hotel.rating}</p>
+        </>
+
     );
 }
 

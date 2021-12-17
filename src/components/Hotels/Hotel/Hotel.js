@@ -25,7 +25,7 @@ function Hotel(props) {
   const theme = useContext(ThemeContext);
 
   const clickHandler = (e) => {
-    props.onOpen(props);
+    if(props.onOpen) props.onOpen(props);
   };
 
   return (
