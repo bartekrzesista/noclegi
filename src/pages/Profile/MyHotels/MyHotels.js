@@ -21,6 +21,16 @@ export default function MyHotels() {
         }
     };
 
+    const deleteHandler = async (id) => {
+        try {
+            await axios.delete(`/hotels/${id}.json?auth=${auth.token}`);
+            const newHotels = hotels.filter(e => e.id !== id);
+            setHotels(newHotels);
+        } catch (e) {
+            console.log(e.response);
+        }
+    }
+
     useEffect(() => {
         fetchHotels();
     }, []);
@@ -42,7 +52,7 @@ export default function MyHotels() {
                                     <td>{hotel.name}</td>
                                     <td className="d-flex justify-content-center">
                                         <button className="btn btn-warning">Edytuj</button>
-                                        <button className="btn btn-danger ms-2">Usuń</button>
+                                        <button onClick={() => deleteHandler(hotel.id)} className="btn btn-danger ms-2">Usuń</button>
                                     </td>
                                 </tr>
                             ))}

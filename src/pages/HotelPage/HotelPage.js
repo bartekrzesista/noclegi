@@ -14,7 +14,6 @@ function HotelPage() {
         try {
             const res = await axios.get(`/hotels/${id}.json`);
             setHotel(res.data);
-            console.log(res.data)
             setTitle(`Hotel - ${res.data.name}`);  
             setLoading(false);
         } catch (e) {
