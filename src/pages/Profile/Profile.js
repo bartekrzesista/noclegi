@@ -27,7 +27,6 @@ export default function ProfilePage() {
             <Switch>
                 <Route path={`${path}/hotels`} component={MyHotels} />
                 <Route path={`${path}`} component={ProfileDetails} />
-                {/* <Route path="/profile" render={() => <p>Wybierz opcję</p>} /> */}
             </Switch>
         </div>
       </div>

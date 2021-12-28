@@ -39,20 +39,28 @@ export default function MyHotels() {
         <div>
             {hotels
                 ? (
-                    <table className="table">
+                    <table className="table" style={{fontSize: 15}}>
                         <thead>
                             <tr>
                                 <th>Nazwa</th>
+                                <th>Status</th>
                                 <th className="text-center">Opcje</th>
                             </tr>
                         </thead>
                         <tbody>
                             {hotels.map((hotel) => (
-                                <tr key={hotel.id}>
+                                <tr key={hotel.id} className="align-middle">
                                     <td>{hotel.name}</td>
-                                    <td className="d-flex justify-content-center">
-                                        <button className="btn btn-warning">Edytuj</button>
-                                        <button onClick={() => deleteHandler(hotel.id)} className="btn btn-danger ms-2">Usuń</button>
+                                    <td>
+                                        <span className={`badge ${hotel.isActive ? 'bg-success' : 'bg-secondary'}`}>
+                                            {hotel.isActive ? 'aktywny' : 'ukryty'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div className="d-flex justify-content-center">
+                                            <Link to={`/profile/hotels/edit/${hotel.id}`} className="btn btn-warning btn-sm">Edytuj</Link>
+                                            <button onClick={() => deleteHandler(hotel.id)} className="btn btn-danger btn-sm ms-2">Usuń</button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
