@@ -12,12 +12,15 @@ function EditHotel() {
     const [hotel, setHotel] = useState(null);
 
     const submit = async (form) => {
-        await axios.put(`/hotels/${id}.json?auth=${auth.token}`, form);
+        await axios.patch(`/hotels/${id}.json?auth=${auth.token}`, form);
         history.push('/profile/hotels');
       };
 
     const fetchHotel = async () => {
         const res = await axios.get(`/hotels/${id}.json`);
+        const hotelData = res.data;
+        delete hotelData.user_id;
+        
         setHotel(res.data);
     }
 

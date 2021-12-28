@@ -71,7 +71,7 @@ function HotelForm(props) {
       .filter((e) => e).length;
 
       useEffect(() => {
-        const newForm = {...form, user_id: ''};
+        const newForm = {...form};
 
         for (const key in props.hotel) {
           if(newForm[key].hasOwnProperty('value')) {
