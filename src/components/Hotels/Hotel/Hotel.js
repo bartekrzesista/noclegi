@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styles from "./Hotel.module.css";
-import img from "../../../assets/images/hotel.jpg";
 import ThemeContext from "../../../context/themeContext";
 import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
@@ -33,7 +32,10 @@ function Hotel(props) {
       <div className="card-body">
         <div className="row">
           <div className="col-4">
-            <img src={img} alt="hotel 1" className="img-fluid img-thumbnail" />
+            <img
+              src={`https://placeimg.com/220/18${Math.floor(Math.random()*9)}/arch`}
+              alt="hotel 1"
+              className="img-fluid img-thumbnail" />
           </div>
           <div className="col-8">
             <div className="row">
