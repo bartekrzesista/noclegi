@@ -20,8 +20,8 @@ function EditHotel() {
         const res = await axios.get(`/hotels/${id}.json`);
         const hotelData = res.data;
         delete hotelData.user_id;
-        
-        setHotel(res.data);
+        delete hotelData.averageRating;
+        setHotel(hotelData);
     }
 
     useEffect(() => {

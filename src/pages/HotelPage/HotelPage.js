@@ -9,6 +9,9 @@ function HotelPage() {
     const { id } = useParams();
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
+    const [personalRating, setPersonalRating] = useState();
+    const [success, setSuccess] = useState(null);
+    const [btnDisabled, setBtnDisabled] = useState(true);
     const setTitle = useWebTitle();
     const [auth] = useAuth();
 
@@ -23,8 +26,47 @@ function HotelPage() {
         }
     };
 
+    const fetchPersonalRating = async () => {
+        try {
+            const res = await axios.get(`/ratings/${id}/${auth.userId}.json`);
+            console.log('res data rating:', res.data.rating);
+            setPersonalRating(res.data.rating);
+            setBtnDisabled(false);
+        } catch (e) {
+            setPersonalRating('no rating');
+        }
+    };
+
+    const rateHotel = async () => {
+        try {
+            if (personalRating && personalRating !== 'no rating') {
+                const res = await axios.put(`/ratings/${id}/${auth.userId}.json?auth=${auth.token}`, {rating: personalRating});
+
+                if (res.status === 200) {
+                    setSuccess(true);
+                    setTimeout(() => {
+                        setSuccess(false);
+                    }, 5000);
+                }
+            }
+            else {
+                console.log('bad rating value', personalRating);
+            }
+        } catch (e) {
+            console.log(e.response);
+        }
+    };
+
+    const onChangeHandler = e => {
+        if (e.target.value === 'no rating') setBtnDisabled(true);
+        else setBtnDisabled(false);
+        setPersonalRating(e.target.value);
+    };
+
     useEffect(() => {
         fetchHotel();
+        fetchPersonalRating();
+        console.log('per rating:', personalRating);
     }, []);
 
     return loading ? (
@@ -47,8 +89,8 @@ function HotelPage() {
                     <b>Liczba pokoi:</b> {hotel.rooms}
                 </p>
                 <p>
-                    <b>Opis:</b>{" "}
-                    <span className="text-secondary">{hotel.description}</span>
+                    <b>Opis:</b>
+                    <span className="text-secondary"> {hotel.description}</span>
                 </p>
                 <p>
                     <b>Wyposażenie:</b>
@@ -58,34 +100,34 @@ function HotelPage() {
                         <li key={feature}>{feature}</li>
                     ))}
                 </ul>
-                <p className="mt-2 fs-4">
-                    <b>Ocena:</b> {hotel.rating}
+                <p className="mt-2 fs-5">
+                    <b>Średnia ocena:</b> {hotel.averageRating ? hotel.averageRating : 'Brak ocen'}
                 </p>
             </div>
 
             {auth ? (
-                <div className="card-footer">
+                <div className="card-footer pt-4 pb-4 d-flex flex-column">
                     <h3>Twoja ocena:</h3>
-                    <div className="">
-                        <div className="mt-3" style={{ width: "50%" }}>
-                            <select
-                                className="form-select form-select"
-                                aria-label="Choose rating">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5" selected>5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                        <div className="my-3">
-                            <button type="button" className="btn btn-info">Oceń</button>
-                        </div>
+                    <div className="w-50 mt-2 mb-3">
+                        <select
+                            value={personalRating}
+                            onChange={onChangeHandler}
+                            className="form-select form-select"
+                            aria-label="Choose rating">
+                            <option value="no rating">Brak oceny</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    {success
+                        ? <div className="alert alert-success">Ocena została zapisana.</div>
+                        : null
+                    }
+                    <div className="mt-5 d-flex justify-content-end">
+                        <button type="button" className="btn btn-info" onClick={rateHotel} disabled={btnDisabled}>Oceń</button>
                     </div>
                 </div>
             ) : null}

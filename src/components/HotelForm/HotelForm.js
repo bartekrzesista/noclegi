@@ -11,13 +11,13 @@ function HotelForm(props) {
           value: '',
           error: '',
           showError: false,
-          rules: ['required']
+          rules: ['required', {name: 'minLength', length: 5}]
         },
         description: {
           value: '',
           error: '',
           showError: false,
-          rules: ['required', {name: 'minLength', length: 20}]
+          rules: ['required']
         },
         city: {
           value: '',
@@ -29,6 +29,7 @@ function HotelForm(props) {
         features: [],
         image: null,
         isActive: true,
+        averageRating: null,
       });
       const [loading, setLoading] = useState(false);
 
@@ -58,7 +59,7 @@ function HotelForm(props) {
             rooms: form.rooms,
             features: form.features,
             isActive: form.isActive,
-            user_id: auth.userId
+            user_id: auth.userId,
           });
         } catch (e) {
           console.log(e.response);

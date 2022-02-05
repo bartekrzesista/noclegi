@@ -4,8 +4,8 @@ function Footer() {
     return (
         <ThemeContext.Consumer>
             {({theme}) => (
-                <footer className={`text-center m-3 text-${theme}`}>
-                    <p>Noclegi 2021</p>
+                <footer className={`text-center m-4 text-${theme}`}>
+                    <p>Noclegi 2022</p>
                 </footer>
             )}
         </ThemeContext.Consumer>
