@@ -29,11 +29,29 @@ function HotelPage() {
     const fetchPersonalRating = async () => {
         try {
             const res = await axios.get(`/ratings/${id}/${auth.userId}.json`);
-            console.log('res data rating:', res.data.rating);
             setPersonalRating(res.data.rating);
             setBtnDisabled(false);
         } catch (e) {
             setPersonalRating('no rating');
+        }
+    };
+
+    const calcAverageRating = async () => {
+        try {
+            const res = await axios.get(`/ratings/${id}.json`);
+            const ratings = res.data;
+
+            let sum = 0;
+            let length = 0;
+            for (const userId in ratings) {
+                const { rating } = ratings[userId];
+                sum += parseInt(rating);
+                length++;
+            }
+            const average = sum / length;
+            await axios.patch(`/hotels/${id}.json?auth=${auth.token}`, {...hotel, averageRating: average});
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -48,6 +66,7 @@ function HotelPage() {
                         setSuccess(false);
                     }, 5000);
                 }
+                calcAverageRating();
             }
             else {
                 console.log('bad rating value', personalRating);
@@ -66,7 +85,6 @@ function HotelPage() {
     useEffect(() => {
         fetchHotel();
         fetchPersonalRating();
-        console.log('per rating:', personalRating);
     }, []);
 
     return loading ? (

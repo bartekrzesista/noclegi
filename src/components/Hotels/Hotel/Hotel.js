@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 Hotel.propTypes = {
   name: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
-  rating: PropTypes.oneOfType([
+  averageRating: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
   ]).isRequired,
@@ -16,7 +16,7 @@ Hotel.propTypes = {
 };
 
 Hotel.defaultProps = {
-  rating: 'Brak oceny'
+  averageRating: 'Brak oceny'
 };
 
 function Hotel(props) {
@@ -44,9 +44,9 @@ function Hotel(props) {
                 <span className="badge bg-dark mb-3">{props.city}</span>
               </div>
               <div className="col text-right px-2">
-                <h5>{props.rating === 'Brak oceny'
-                  ? props.rating
-                  : `Ocena: ${props.rating}`
+                <h5>{props.averageRating === 'Brak oceny'
+                  ? props.averageRating
+                  : `Ocena: ${props.averageRating}`
                   }
                 </h5>
                 <Link
